@@ -18,7 +18,11 @@ def screen(section='coverage'):
     if section not in SECTIONS:
         raise TrackError('NO_SAMPLE', 404)
     label = request.args.get('sample', 'dirty')
-    results = inspect(sample(label), section if section not in ('runs', 'issue') else 'coverage')
+    results = inspect(sample(label), 'coverage')
     ledger = recent(current_app.track_archive)['runs'] if section in ('runs', 'issue') else []
+    dispatch_chains = [{'chain': track['chain'], 'start_mm': track['start_mm'],
+                        'end_mm': track['end_mm']}
+                       for track in results['coverage']['tracks']]
     return render_template('base.html', section=section, nav=SECTIONS, label=label, stages=results,
-                           ledger=ledger, rev=REVISION, run_id=request.args.get('run', ''))
+                           ledger=ledger, rev=REVISION, run_id=request.args.get('run', ''),
+                           dispatch_chains=dispatch_chains)

@@ -2,3 +2,34 @@
 {% if ledger %}<form id="issue-run"><label for="run">归档批次</label><select id="run">{% for item in ledger %}<option value="{{ item.run_id }}" {{ 'selected' if item.run_id == run_id }}>{{ item.run_id[:16] }} · {{ item.summary.mapped_mm }} mm</option>{% endfor %}</select><button>签发证据</button></form>
 <a id="download" hidden>下载签发证据</a><output id="seal"></output>{% else %}<p>请先完成一笔批次归档。</p>{% endif %}
 </section><section class="panel"><h3>随件证据</h3><ul><li>报文原件和隔离行</li><li>双基点、断链与掉线记录</li><li>轨段覆盖与缺陷群清单</li></ul></section></div>
+
+<section class="panel dispatch-panel">
+  <h3>交班补巡派车</h3>
+  <p class="hint">从给定起点安排一趟补巡：缺陷旁缺口优先，同级按缺口长度；经过已巡段也占车程，断链两侧不互通。新批次补报后原计划自动作废重算，规划里程不计入实测。</p>
+  {% if ledger %}
+  <form id="dispatch-form">
+    <div class="form-row">
+      <label for="dispatch-run">归档批次</label>
+      <select id="dispatch-run">{% for item in ledger %}<option value="{{ item.run_id }}" {{ 'selected' if item.run_id == run_id }}>{{ item.run_id[:16] }}</option>{% endfor %}</select>
+    </div>
+    <div class="form-row">
+      <label for="dispatch-chain">起点链号</label>
+      <select id="dispatch-chain">{% for track in dispatch_chains %}<option value="{{ track.chain }}" data-start="{{ track.start_mm }}" data-end="{{ track.end_mm }}">{{ track.chain }}（{{ track.start_mm }}–{{ track.end_mm }} mm）</option>{% endfor %}</select>
+    </div>
+    <div class="form-row">
+      <label for="dispatch-station">起点里程 mm</label>
+      <input id="dispatch-station" name="station_mm" inputmode="numeric" required>
+    </div>
+    <div class="form-row">
+      <label for="dispatch-budget">车程限额 mm</label>
+      <input id="dispatch-budget" name="budget_mm" inputmode="numeric" required>
+    </div>
+    <div class="form-row">
+      <label for="dispatch-batch">新批次报文（可选 CSV）</label>
+      <textarea id="dispatch-batch" rows="4" placeholder="有补报批次时粘贴，留空按当前缺口规划"></textarea>
+    </div>
+    <button>安排补巡</button>
+  </form>
+  <output id="dispatch-result" class="dispatch-result" hidden></output>
+  {% else %}<p>请先完成一笔批次归档后再派车。</p>{% endif %}
+</section>

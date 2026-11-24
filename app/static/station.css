@@ -38,6 +38,13 @@ code,td,output {font-family:var(--mono)}
 code,output {overflow-wrap:anywhere}
 details {border-top:1px solid var(--line);padding:8px 0}
 summary {cursor:pointer}
+.dispatch-panel {margin-top:var(--gap)}
+.dispatch-panel .hint {color:var(--soft);font-size:13px;margin-top:0}
+.form-row {display:grid;gap:4px;margin-bottom:12px}
+.form-row label {font-size:13px}
+.form-row input {font:inherit;padding:6px 10px;background:var(--bar);border:1px solid var(--line);border-radius:4px;color:var(--ink)}
+.dispatch-result {display:block;margin-top:14px;padding:12px;border:1px solid var(--line);border-radius:4px;background:var(--bar);white-space:normal}
+.dispatch-result ul {margin:6px 0;padding-left:18px}
 footer {display:flex;gap:16px;justify-content:space-between;border-top:1px solid var(--line);padding-top:10px;margin-top:24px;color:var(--soft);font-size:13px}
 footer i {display:inline-block;width:6px;height:6px;background:var(--accent);border-radius:50%;vertical-align:middle}
 @media(max-width:850px) {.work-grid{grid-template-columns:minmax(0,1fr)} .kpis div{flex-direction:column;gap:0}}
